@@ -9,12 +9,20 @@ import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.co
 import { CreatePageComponent } from './pages/create-page/create-page.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
 
-import { AuthService } from './shared/services/auth.service';
 import { SharedModule } from '../shared/shared.module';
 import { AuthGuard } from './shared/services/auth.guard';
-
+import { searchPipe } from './shared/pipes/search.pipe';
+import { AlertComponent } from './shared/components/alert/alert.component';
+import {  AlertService } from "./shared/services/alert.service";
 @NgModule({
-    declarations: [AdminLayoutComponent, LoginPageComponent, DashboardPageComponent, CreatePageComponent, EditPageComponent],
+    declarations: [AdminLayoutComponent, 
+                   LoginPageComponent, 
+                   DashboardPageComponent, 
+                   CreatePageComponent, 
+                   EditPageComponent,
+                   searchPipe,
+                   AlertComponent
+                ],
     imports:[
     CommonModule,
     FormsModule,
@@ -34,7 +42,7 @@ import { AuthGuard } from './shared/services/auth.guard';
     ])
 ],
 exports:[RouterModule],
-providers: [AuthGuard]
+providers: [AuthGuard, AlertService]
 
 })
 

@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Post} from '../../../shared/interfaces';
 import { PostsService } from 'src/app/shared/posts.service';
+import { Subscription } from 'rxjs';
+
+import {AlertService} from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-create-page',
@@ -11,9 +14,12 @@ import { PostsService } from 'src/app/shared/posts.service';
 export class CreatePageComponent implements OnInit {
 
   form: FormGroup;
+  uSub:Subscription
 
-  constructor(private postsService:PostsService) {
-  }
+  constructor(
+    private postsService:PostsService,
+    private alert: AlertService
+    ){}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -21,6 +27,11 @@ export class CreatePageComponent implements OnInit {
       text: new FormControl(null, Validators.required),
       author: new FormControl(null, Validators.required)
     })
+  }
+  ngOnDestroy(){
+    if (this.uSub){
+      this.uSub.unsubscribe()
+    }
   }
 
   submit() {
@@ -35,9 +46,10 @@ export class CreatePageComponent implements OnInit {
       date: new Date()
     }
 
-    this.postsService.create(post).subscribe(
+    this.uSub=this.postsService.create(post).subscribe(
       ()=>{
         this.form.reset()
+        this.alert.success('Пост був створений')
       }
     )
 
