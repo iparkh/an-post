@@ -12,6 +12,9 @@
           "/manifest.webmanifest",
           "/*.css",
           "/*.js"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/css?family=Roboto"
         ]
       }
     }, {
@@ -25,5 +28,15 @@
         ]
       }
     }
-  ]
+  ],
+  "dataGroups": [{
+    "name": "firebase-posts",
+    "urls": [
+      "https://smart-6b9de.firebaseio.com/**"
+    ],
+    "cacheConfig": {
+      "maxSize": 5,
+      "maxAge": "3600"
+    }
+  }]
 }

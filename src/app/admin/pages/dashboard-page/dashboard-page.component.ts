@@ -11,31 +11,38 @@ import { AlertService } from '../../shared/services/alert.service';
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
+
   posts: Post[] = []
-  uSub: Subscription
+  pSub: Subscription
+  dSub: Subscription
   searchStr = ''
 
   constructor(
-    private  postsService: PostsService,
-    private  alert:AlertService
-    ) {}
+    private postsService: PostsService,
+    private alert: AlertService
+    ) {
+  }
 
   ngOnInit() {
-    this.uSub = this.postsService.getAll().subscribe(posts => {
+    this.pSub = this.postsService.getAll().subscribe(posts => {
       this.posts = posts
     })
   }
 
   remove(id: string) {
-      this.uSub = this.postsService.remove(id).subscribe(() => {
+    this.dSub = this.postsService.remove(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id)
       this.alert.warning('Пост був вилучений')
     })
   }
 
   ngOnDestroy() {
-    if (this.uSub) {
-      this.uSub.unsubscribe()
+    if (this.pSub) {
+      this.pSub.unsubscribe()
+    }
+
+    if (this.dSub) {
+      this.dSub.unsubscribe()
     }
   }
 
